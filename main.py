@@ -1,5 +1,4 @@
-from menu_logic import *
-
+import csv
 
 WORKOUTS = ["swimming", "cycling", "running"]
 MAIN_MENU = ["Show stats", "Add new Training", "End Program"]
@@ -97,17 +96,16 @@ def add_training(training_type):
     training_data = input_training_data()
 
     try:
-        with open("trainings.txt", "a") as datei:
-            datei.write(f"{training_type}\n")
-            datei.write(f"{training_data[0]}\n")  # distance
-            datei.write(f"{training_data[1]}\n")  # time
-            datei.write(f"{training_data[2]}\n")  # pulse
-            datei.write(f"{training_data[3]}\n")  # avg_speed
+        with open("trainings.csv", "a", newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([
+                training_type,
+                training_data[0],  # distance
+                training_data[1],  # time
+                training_data[2],  # pulse
+                training_data[3]   # avg_speed
+            ])
         print(f"\nSuccessfully added {training_type}-training of {training_data[0]} km.")
-        print("-" * 70)
-        input("Press ENTER to continue...")
-    except FileNotFoundError:
-        print("No trainings file found.")
         print("-" * 70)
         input("Press ENTER to continue...")
     except IOError as e:
@@ -177,25 +175,24 @@ def load_training(workout_type, time_span):
     counter = 0
 
     try:
-        with open("trainings.txt", "r") as file:
+        with open("trainings.csv", "r", newline='') as file:
+            reader = csv.reader(file)
             print("Reading training data...")
-            while counter < time_span:
-                discipline = file.readline()
-                if discipline == "":
-                    break
-                discipline = discipline.strip()
 
-                distance_line = file.readline()
-                time_line = file.readline()
-                pulse_line = file.readline()
-                speed_line = file.readline()
+            for row in reader:
+                if counter >= time_span:
+                    break
+
+                if len(row) != 5:
+                    continue
 
                 try:
-                    distance = float(distance_line.strip())
-                    time_val = float(time_line.strip())
-                    pulse = float(pulse_line.strip())
-                    avg_speed = float(speed_line.strip())
-                except ValueError:
+                    discipline = row[0]
+                    distance = float(row[1])
+                    time_val = float(row[2])
+                    pulse = float(row[3])
+                    avg_speed = float(row[4])
+                except (ValueError, IndexError):
                     continue
 
                 # Check if we want all workouts or specific type
