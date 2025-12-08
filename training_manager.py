@@ -1,10 +1,10 @@
 import csv
 from constants import TRAINING_FILE, CSV_HEADER
-from utils import get_positive_float, calculate_score
+from utils import get_positive_float, calculate_score, get_score_category
 
 
 def input_training_data():
-    # Abfragen der Trainingsdaten über die get_positive_float funktion
+    # Fragt Trainingsdaten ab bei Benutzer
     distance = get_positive_float("Distance accomplished (in km): ")
     time = get_positive_float("Time needed in minutes: ")
     pulse = get_positive_float("Average pulse: ")
@@ -16,7 +16,7 @@ def input_training_data():
 
 
 def add_training(training_type):
-    # Adden von Training in csv
+    # Fügt Training anhand des Inputs des Benutzers hinzu
     training_data = input_training_data()
 
     # Score berechnen (mit Trainingstyp)
@@ -55,6 +55,7 @@ def add_training(training_type):
             ])
         print(f"\nSuccessfully added {training_type}-training of {training_data[0]} km.")
         print(f"Your score for this training: {score} points")
+        print(f"Performance rating: {get_score_category(score)}")
         print("-" * 70)
         input("Press ENTER to continue...")
     except IOError as e:
@@ -64,7 +65,7 @@ def add_training(training_type):
 
 
 def load_training(workout_type, time_span):
-    # Lädt Trainingsdaten aus der CSV-Datei
+    # Laden des CSV
     total_distance = 0.0
     sum_pulse = 0.0
     sum_pace = 0.0
@@ -81,11 +82,11 @@ def load_training(workout_type, time_span):
 
             # Durch alle Trainingszeilen iterieren
             for row in reader:
-                # Maximale Anzahl erreicht?
+                # Maximale Anzahl erreicht --> Break
                 if counter >= time_span:
                     break
 
-                # Sicherheitsprüfung: Zeile muss genau 6 Spalten haben
+                # Sicherheitsprüfung --> Zeile muss genau 6 Spalten haben
                 if len(row) != 6:
                     continue
 
@@ -128,7 +129,7 @@ def load_training(workout_type, time_span):
 
 
 def display_training_stats(workout_type, stats):
-    # Zeigt die Trainingsstatistiken an
+    # Zeigt Trainingsstatistiken an
     if stats is None:
         return
 
@@ -147,6 +148,7 @@ def display_training_stats(workout_type, stats):
         print(f"Average pulse: {avg_pulse:.2f} Beats per Minute")
         print(f"Average pace: {avg_pace:.2f} Minutes per KM")
         print(f"Average score: {avg_score:.2f} points")
+        print(f"Average performance rating: {get_score_category(avg_score)}")
         print(f"Total score: {stats['sum_score']:.2f} points")
     else:
         print(f"\nNo {workout_type} trainings found.")
