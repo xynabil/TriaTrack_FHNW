@@ -7,13 +7,13 @@ MAIN_MENU = ["Show stats", "Add new Training", "End Program"]
 # CSV Dateiname
 TRAINING_FILE = "trainings.csv"
 
-# CSV Header
+# CSV Header als 
 CSV_HEADER = ["type", "distance_km", "time_min", "avg_pulse", "avg_pace_min_per_km", "score"]
 
-# Disziplin-Spezifische Faktoren
+# Disziplin spezifische Faktoren als Dictionary
 SPORT_FACTORS = {
     "swimming": {
-        "distance_multiplier": 50,
+        "distance_multiplier": 200,
         "pace_multiplier": 20,
         "pulse_divisor": 12
     },
@@ -28,3 +28,12 @@ SPORT_FACTORS = {
         "pulse_divisor": 18
     }
 }
+
+# Score Kategorisierung als Tupel
+SCORE_CATEGORIES = [
+    (200, "Elite"),
+    (150, "Excellent"),
+    (100, "Good"),
+    (60, "Average"),
+    (0, "Keep Going")
+]
