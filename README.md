@@ -204,11 +204,3 @@ The application includes comprehensive input validation:
 
 **Issue**: Cannot write to file
 - **Solution**: Check that you have write permissions in the program directory
-
-## License
-
-This project is provided as-is for educational and personal use.
-
-## Support
-
-For questions or issues, please refer to the source code documentation or contact the development team.
