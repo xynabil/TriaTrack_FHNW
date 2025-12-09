@@ -1,16 +1,16 @@
-# Verfügbare Trainingsarten
+# Available Disciplines
 WORKOUTS = ["swimming", "cycling", "running"]
 
-# Hauptmenü-Optionen
+# Main-Menu options
 MAIN_MENU = ["Show stats", "Add new Training", "End Program"]
 
-# CSV Dateiname
+# CSV Filename
 TRAINING_FILE = "trainings.csv"
 
-# CSV Header als 
+# CSV Header
 CSV_HEADER = ["type", "distance_km", "time_min", "avg_pulse", "avg_pace_min_per_km", "score"]
 
-# Disziplin spezifische Faktoren als Dictionary
+# Discipline Factors
 SPORT_FACTORS = {
     "swimming": {
         "distance_multiplier": 200,
@@ -29,7 +29,7 @@ SPORT_FACTORS = {
     }
 }
 
-# Score Kategorisierung als Tupel
+# Scare Categories
 SCORE_CATEGORIES = [
     (200, "Elite"),
     (150, "Excellent"),

@@ -3,7 +3,7 @@ from training_manager import add_training, load_training, display_training_stats
 
 
 def print_main_menu():
-    # Printet das Hauptmenü
+    # Prints Main Menu
     i = 1
     print("\nWelcome to TriaTrack, your tracker for all your triathletic workouts")
     print("-" * 70)
@@ -14,7 +14,7 @@ def print_main_menu():
 
 
 def main_menu_logic():
-    # Logik für das Main Menü
+    # Logic for Main Menu
     while True:
         print_main_menu()
         try:
@@ -23,6 +23,9 @@ def main_menu_logic():
             print("Please enter a number.")
             print("-" * 70)
             continue
+        except KeyboardInterrupt:
+            print("\nProgram terminated.!")
+
         if choice_menu == 1:
             stats_menu_logic()
         elif choice_menu == 2:
@@ -36,14 +39,14 @@ def main_menu_logic():
 
 
 def print_new_training_menu():
-    # Zeigt Menü für neue Trainings an
+    # Shows Menu for adding a new training
     print("-" * 40)
     print("\nAdd new training")
     print("-" * 40)
 
 
 def new_training_menu_logic():
-    # Logik für hinzufügen neues Training
+    # Logic to add a new training
     print_new_training_menu()
     i = 1
     for workout in WORKOUTS:
@@ -56,6 +59,8 @@ def new_training_menu_logic():
         except ValueError:
             print("Please enter a number.")
             continue
+        except KeyboardInterrupt:
+            print("\nProgram terminated.!")
 
         if 1 <= choice_training <= len(WORKOUTS):
             idx = choice_training - 1
@@ -69,7 +74,7 @@ def new_training_menu_logic():
 
 
 def print_stats_menu():
-    # Zeigt das Statistik-Menü an
+    # Print Stats-Menu
     i = 1
     print("\nWhich Stats would you like to show?")
     print("-" * 70)
@@ -81,7 +86,7 @@ def print_stats_menu():
 
 
 def stats_menu_logic():
-    # Logik für die Statistik-Anzeige
+    # Logic for Stats Span
     print_stats_menu()
 
     while True:
@@ -90,6 +95,8 @@ def stats_menu_logic():
         except ValueError:
             print("Please enter a number.")
             continue
+        except KeyboardInterrupt:
+            print("\nProgram terminated.!")
 
         if 1 <= choice_stats <= len(WORKOUTS):
             idx = choice_stats - 1
@@ -107,13 +114,13 @@ def stats_menu_logic():
 
 
 def print_stats_menu_time_span():
-    # Zeigt den Header für Zeitspannen-Analyse an
+    # Prints header for time span menu
     print("\nWorkout Analyser")
     print("-" * 70)
 
 
 def stats_menu_timespan_logic(workout_type):
-    # Logik für die Auswahl der Zeitspanne
+    # Logic for choosing time-span
     while True:
         try:
             time_span = int(input("How many of your last workouts do you want to analyse: "))
@@ -125,3 +132,5 @@ def stats_menu_timespan_logic(workout_type):
                 print("Invalid input")
         except ValueError:
             print("Please enter a number.")
+        except KeyboardInterrupt:
+            print("\nProgram terminated.!")

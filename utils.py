@@ -1,7 +1,7 @@
 from constants import *
 
 def get_positive_float(prompt):
-    # Validierung für positive Float-Werte
+    # Validate user inputs to get positive float
     while True:
         try:
             value = float(input(prompt))
@@ -11,10 +11,12 @@ def get_positive_float(prompt):
                 print("Please enter a correct number.")
         except ValueError:
             print("Please enter a number.")
+        except KeyboardInterrupt:
+            print("\nProgram terminated.!")
 
 
 def calculate_score(distance, time, pulse, training_type):
-    # Berechnet Score mit Disziplin-Konstanten
+    # Calculates Score based on discipline
 
     factors = SPORT_FACTORS.get(training_type, SPORT_FACTORS["running"])
 
@@ -27,7 +29,7 @@ def calculate_score(distance, time, pulse, training_type):
 
 
 def get_score_category(score):
-    # Ratet den Score anhand den Konstanten
+    # Puts store into a category
 
     for min_score, category in SCORE_CATEGORIES:
         if score >= min_score:

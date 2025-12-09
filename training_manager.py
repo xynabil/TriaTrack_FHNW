@@ -4,43 +4,45 @@ from utils import get_positive_float, calculate_score, get_score_category
 
 
 def input_training_data():
-    # Fragt Trainingsdaten ab bei Benutzer
+    # Asks for training data via get_positive_float
     distance = get_positive_float("Distance accomplished (in km): ")
     time = get_positive_float("Time needed in minutes: ")
     pulse = get_positive_float("Average pulse: ")
 
-    # Pace berechnen (Minuten pro Kilometer)
+    # Calculate Pace (min/km)
     avg_pace = time / distance
 
     return distance, time, pulse, avg_pace
 
 
 def add_training(training_type):
-    # Fügt Training anhand des Inputs des Benutzers hinzu
+    # Stores user input into list training_data
     training_data = input_training_data()
 
-    # Score berechnen (mit Trainingstyp)
+    # Calculates score with based on training type
     score = calculate_score(training_data[0], training_data[1], training_data[2], training_type)
 
     try:
-        # Prüfen, ob die Datei bereits existiert und Inhalt hat
+        # Checks if file exists and has content or not
         file_exists = False
         file_empty = True
+
         try:
-            with open(TRAINING_FILE, "r") as f:
+            with open(TRAINING_FILE, "r", encoding='utf-8') as f:
                 file_exists = True
-                # Erste Zeile lesen um zu prüfen, ob Datei leer ist
                 first_line = f.readline()
                 if first_line.strip():
                     file_empty = False
         except FileNotFoundError:
-            pass
+            print("File has not been found.")
+        except PermissionError:
+            print("No Permissions to read training data")
 
-        # Datei im Anfüge-Modus öffnen
-        with open(TRAINING_FILE, "a", newline='') as file:
+        # Opens csv in append-mode
+        with open(TRAINING_FILE, "a", newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
 
-            # Header nur schreiben, wenn Datei neu oder leer ist
+            # Only write header when file is new or empty
             if not file_exists or file_empty:
                 writer.writerow(CSV_HEADER)
 
@@ -51,21 +53,24 @@ def add_training(training_type):
                 training_data[1],  # time
                 training_data[2],  # pulse
                 training_data[3],  # avg_pace
-                score  # score
+                score
             ])
+
         print(f"\nSuccessfully added {training_type}-training of {training_data[0]} km.")
         print(f"Your score for this training: {score} points")
         print(f"Performance rating: {get_score_category(score)}")
-        print("-" * 70)
-        input("Press ENTER to continue...")
-    except IOError as e:
+
+    except PermissionError:
+        print("Error: No permission to write to file. Check file permissions.")
+    except OSError as e:
         print(f"Error while saving: {e}")
+    finally:
         print("-" * 70)
         input("Press ENTER to continue...")
 
 
 def load_training(workout_type, time_span):
-    # Laden des CSV
+    # Loads Trainingdata from csv
     total_distance = 0.0
     sum_pulse = 0.0
     sum_pace = 0.0
@@ -73,20 +78,20 @@ def load_training(workout_type, time_span):
     counter = 0
 
     try:
-        with open(TRAINING_FILE, "r", newline='') as file:
+        with open(TRAINING_FILE, "r", newline='', encoding='utf-8') as file:
             reader = csv.reader(file)
             print("Reading training data...")
 
-            # Header-Zeile überspringen
+            # Skip header
             next(reader, None)
 
-            # Durch alle Trainingszeilen iterieren
+            # Iterates through each row
             for row in reader:
-                # Maximale Anzahl erreicht --> Break
+                # If counter has been reached --> break
                 if counter >= time_span:
                     break
 
-                # Sicherheitsprüfung --> Zeile muss genau 6 Spalten haben
+                # Check, if there are not exactly 6 rows --> skip row
                 if len(row) != 6:
                     continue
 
@@ -100,7 +105,7 @@ def load_training(workout_type, time_span):
                 except (ValueError, IndexError):
                     continue
 
-                # Prüfen, ob wir alle Trainings oder nur eine bestimmte Art wollen
+                # Analyse all trainings or only specific discipline
                 if workout_type == "all" or discipline == workout_type:
                     total_distance += distance
                     sum_pulse += pulse
@@ -110,13 +115,12 @@ def load_training(workout_type, time_span):
 
     except FileNotFoundError:
         print("No trainings file found.")
-        print("-" * 70)
-        input("Press Enter to continue...")
         return None
-    except IOError as e:
+    except PermissionError:
+        print("Error: No permission to read file. Check file permissions.")
+        return None
+    except OSError as e:
         print(f"Error while loading: {e}")
-        print("-" * 70)
-        input("Press Enter to continue...")
         return None
 
     return {
@@ -129,7 +133,7 @@ def load_training(workout_type, time_span):
 
 
 def display_training_stats(workout_type, stats):
-    # Zeigt Trainingsstatistiken an
+    # Shows stats
     if stats is None:
         return
 
@@ -137,7 +141,7 @@ def display_training_stats(workout_type, stats):
 
     if counter > 0:
         workout_display = "all" if workout_type == "all" else workout_type
-        # Durchschnittswerte berechnen
+        # Calculate avg
         avg_pulse = stats['sum_pulse'] / counter
         avg_pace = stats['sum_pace'] / counter
         avg_score = stats['sum_score'] / counter
