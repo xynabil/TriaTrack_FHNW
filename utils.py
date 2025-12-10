@@ -18,7 +18,7 @@ def get_positive_float(prompt):
 def calculate_score(distance, time, pulse, training_type):
     # Calculates Score based on discipline
 
-    factors = SPORT_FACTORS.get(training_type, SPORT_FACTORS["running"])
+    factors = SPORT_FACTORS.get(training_type, SPORT_FACTORS["running"]) # If no valid training type = take factor for running
 
     pace_factor = (distance / time) * factors["pace_multiplier"]
     distance_points = distance * factors["distance_multiplier"]
@@ -29,8 +29,8 @@ def calculate_score(distance, time, pulse, training_type):
 
 
 def get_score_category(score):
-    # Puts store into a category
+    # Puts score store into a category
 
-    for min_score, category in SCORE_CATEGORIES:
+    for min_score, category in SCORE_CATEGORIES: # Unpacks Tupel into variables
         if score >= min_score:
             return category

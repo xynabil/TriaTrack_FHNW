@@ -98,13 +98,13 @@ def stats_menu_logic():
         except KeyboardInterrupt:
             print("\nProgram terminated.!")
 
-        if 1 <= choice_stats <= len(WORKOUTS):
+        if 1 <= choice_stats <= len(WORKOUTS):  # choice_stats gt or euquals 1 
             idx = choice_stats - 1
             print("-" * 70)
             print_stats_menu_time_span()
             stats_menu_timespan_logic(WORKOUTS[idx])
             break
-        elif choice_stats == len(WORKOUTS) + 1:
+        elif choice_stats == len(WORKOUTS) + 1: # Option always + 1
             print("-" * 70)
             print_stats_menu_time_span()
             stats_menu_timespan_logic("all")

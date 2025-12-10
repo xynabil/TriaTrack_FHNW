@@ -14,7 +14,6 @@ def input_training_data():
 
     return distance, time, pulse, avg_pace
 
-
 def add_training(training_type):
     # Stores user input into list training_data
     training_data = input_training_data()
@@ -78,8 +77,8 @@ def load_training(workout_type, time_span):
     counter = 0
 
     try:
-        with open(TRAINING_FILE, "r", newline='', encoding='utf-8') as file:
-            reader = csv.reader(file)
+        with open(TRAINING_FILE, "r", newline='', encoding='utf-8') as file: # utf-8 for üäö to be read
+            reader = csv.reader(file) # csv.reader object created into reader variable
             print("Reading training data...")
 
             # Skip header
@@ -91,7 +90,7 @@ def load_training(workout_type, time_span):
                 if counter >= time_span:
                     break
 
-                # Check, if there are not exactly 6 rows --> skip row
+                # Check, if there are not exactly 6 entries --> skip row
                 if len(row) != 6:
                     continue
 
@@ -102,7 +101,7 @@ def load_training(workout_type, time_span):
                     pulse = float(row[3])
                     avg_pace = float(row[4])
                     score = float(row[5])
-                except (ValueError, IndexError):
+                except (ValueError, IndexError): # Except for unexpected values and/or indexerror
                     continue
 
                 # Analyse all trainings or only specific discipline
@@ -140,7 +139,7 @@ def display_training_stats(workout_type, stats):
     counter = stats['counter']
 
     if counter > 0:
-        workout_display = "all" if workout_type == "all" else workout_type
+        workout_display = "all" if workout_type == "all" else workout_type # When workout_type equals "all" store into workout_display
         # Calculate avg
         avg_pulse = stats['sum_pulse'] / counter
         avg_pace = stats['sum_pace'] / counter
