@@ -14,17 +14,17 @@ CSV_HEADER = ["type", "distance_km", "time_min", "avg_pulse", "avg_pace_min_per_
 SPORT_FACTORS = {
     "swimming": {
         "distance_multiplier": 80,
-        "pace_multiplier": 40, # highest (slowest pace IR)
+        "pace_multiplier": 40, # highest (slowest pace in RL)
         "pulse_divisor": 12
     },
     "running": {
         "distance_multiplier": 15,
-        "pace_multiplier": 25, # middle (middle pace IR)
+        "pace_multiplier": 25, # middle (middle pace in RL)
         "pulse_divisor": 15
     },
     "cycling": {
         "distance_multiplier": 5,
-        "pace_multiplier": 15, # lowest (fastest pace IR)
+        "pace_multiplier": 15, # lowest (fastest pace in RL)
         "pulse_divisor": 18
     }
 }
