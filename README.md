@@ -98,18 +98,18 @@ Each discipline uses different multipliers optimized for that sport's characteri
 ### Discipline-Specific Factors
 
 **Swimming:**
-- Emphasizes distance (200x multiplier)
-- Moderate pace consideration (20x)
+- Emphasizes distance (80x multiplier)
+- Moderate pace consideration (40x)
 - Lower heart rate expectations (÷12)
 
 **Running:**
 - Balanced approach (15x distance)
-- Strong pace emphasis (30x)
+- Strong pace emphasis (25x)
 - Standard heart rate consideration (÷15)
 
 **Cycling:**
 - Lower distance multiplier (5x) due to longer typical distances
-- Highest pace multiplier (40x)
+- Highest pace multiplier (15x)
 - Most lenient heart rate expectation (÷18)
 
 ## Configuration Constants
@@ -139,8 +139,8 @@ Defines the data storage file name and the structure of stored training data.
 ```python
 SPORT_FACTORS = {
     "swimming": {
-        "distance_multiplier": 200,
-        "pace_multiplier": 20,
+        "distance_multiplier": 80,
+        "pace_multiplier": 40,
         "pulse_divisor": 12
     },
     "running": {...},
